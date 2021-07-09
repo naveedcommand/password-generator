@@ -25,6 +25,7 @@ generateBtn.addEventListener("click", writePassword)
 */
 
 let promptUserInput = function() {
+  pwdResult = [];
   let numChar = prompt("How many characters do you want in your password?");
     if (numChar < 8 || numChar > 128) {
       alert("Please enter a number between 8 and 128");
@@ -36,26 +37,44 @@ let promptUserInput = function() {
   let upYes = confirm("Do you want upper case letters in your password?");
   let spcYes = confirm("Do you want special characters in your password?");
 
+  let values = {
+    numbers: 0, 
+    lower: 1,
+    upper: 2,
+    special: 3
+  }
+
+  let options = [];
+  if (numYes) {options.push(values.numbers);}
+  if (lowYes) {options.push(values.lower);}
+  if (upYes) {options.push(values.upper);}
+  if (spcYes) {options.push(values.special);}
+
+//  debugger;
   for (let i = 0; i < numChar; i++){
 
-      if (numYes) {
+      let decision = options[Math.floor(Math.random()*options.length)];
+
+      if (values.numbers === decision){
         let numChar = numOptions[Math.floor(Math.random() * numOptions.length)];
         pwdResult.push(numChar);
       }
-      else if (lowYes) {
+
+      else if (values.lower === decision){
         let numChar = lowCase[Math.floor(Math.random() * lowCase.length)];
         pwdResult.push(numChar);
       }
-      else if (upYes) {
-        let numChar = upCase[Math.floor(Math.random() * upCase.length)];
+
+      else if (values.upper === decision){
+      let numChar = upCase[Math.floor(Math.random() * upCase.length)];
         pwdResult.push(numChar);
       }
-      else if (spcYes) {
+
+      else if (values.special === decision){
         let numChar = spcLtr[Math.floor(Math.random() * spcLtr.length)];
         pwdResult.push(numChar);
       }
   }
   alert("Your password is " + pwdResult.join(''));
 }
-
 generate.addEventListener("click", promptUserInput);
